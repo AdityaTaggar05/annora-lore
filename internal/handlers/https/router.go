@@ -9,7 +9,7 @@ import (
 func NewRouter() *chi.Mux {
 	r := chi.NewRouter()
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Service is up and running!"))
 		w.WriteHeader(http.StatusOK)
 	})

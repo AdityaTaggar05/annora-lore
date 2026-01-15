@@ -1,6 +1,6 @@
 module github.com/AdityaTaggar05/annora-lore
 
-go 1.25.0
+go 1.22.0
 
 require (
 	github.com/go-chi/chi v1.5.5
