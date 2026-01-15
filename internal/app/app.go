@@ -11,6 +11,9 @@ import (
 
 	"github.com/AdityaTaggar05/annora-lore/internal/config"
 	"github.com/AdityaTaggar05/annora-lore/internal/handlers/https"
+	"github.com/AdityaTaggar05/annora-lore/internal/infrastructure/neo4j"
+	"github.com/AdityaTaggar05/annora-lore/internal/repository"
+	"github.com/AdityaTaggar05/annora-lore/internal/services"
 )
 
 type App struct {
@@ -19,14 +22,27 @@ type App struct {
 }
 
 func New(cfg *config.Config) (*App, error) {
-	router := https.NewRouter()
+	ctx := context.Background()
+	neoDB, err := neo4j.NewNeo4jDB(ctx, &cfg.Neo4j)
+
+	if err != nil {
+		log.Fatalf("error: couldn't connect to Neo4j")
+		os.Exit(1)
+	}
+	log.Println("connected succesfully to Neo4j")
+
+	loreRepo := repository.NewLoreRepository(neoDB)
+	loreService := services.NewLoreService(loreRepo)
+	loreHandler := https.NewHandler(loreService)
+
+	router := https.NewRouter(*loreHandler)
 
 	return &App{
 		Config: cfg,
 		Server: &http.Server{
 			Addr:         ":" + cfg.Server.Port,
-			Handler: router,
-			ReadTimeout: cfg.Server.ReadTimeout,
+			Handler:      router,
+			ReadTimeout:  cfg.Server.ReadTimeout,
 			WriteTimeout: cfg.Server.WriteTimeout,
 		},
 	}, nil
