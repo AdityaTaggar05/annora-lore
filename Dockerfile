@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # Enables BuildKit features like cache mounts (optional for 2026+)
 
 # Stage 1: Build the Go binary
-FROM golang:1.22-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 # Install git (for go mod deps; remove if not needed)
 RUN apk add --no-cache git
