@@ -17,8 +17,9 @@ func Load() *Config {
 
 		Neo4j: Neo4jConfig{
 			URI:      mustGetEnv("NEO4J_URI"),
-			User:     getEnv("NEO4J_USER", "neo4j"),
+			Username: getEnv("NEO4J_USER", "neo4j"),
 			Password: getEnv("NEO4J_PASS", "password"),
+			Database: getEnv("NEO4J_DATABASE", "neo4j"),
 		},
 	}
 }
