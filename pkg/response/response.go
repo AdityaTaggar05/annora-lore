@@ -7,7 +7,7 @@ import (
 
 type Response struct {
 	Success bool        `json:"success"`
-	Data    any `json:"data,omitempty"`
+	Data    any         `json:"data,omitempty"`
 	Error   *ErrorData  `json:"error,omitempty"`
 	Message string      `json:"message,omitempty"`
 }
@@ -15,7 +15,7 @@ type Response struct {
 type ErrorData struct {
 	Code    string                 `json:"code"`
 	Message string                 `json:"message"`
-	Details map[string]any `json:"details,omitempty"`
+	Details map[string]any         `json:"details,omitempty"`
 }
 
 func JSON(w http.ResponseWriter, statusCode int, data any) {
