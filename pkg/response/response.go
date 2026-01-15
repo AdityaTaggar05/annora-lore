@@ -7,7 +7,7 @@ import (
 
 type Response struct {
 	Success bool        `json:"success"`
-	Data    interface{} `json:"data,omitempty"`
+	Data    any `json:"data,omitempty"`
 	Error   *ErrorData  `json:"error,omitempty"`
 	Message string      `json:"message,omitempty"`
 }
@@ -15,10 +15,10 @@ type Response struct {
 type ErrorData struct {
 	Code    string                 `json:"code"`
 	Message string                 `json:"message"`
-	Details map[string]interface{} `json:"details,omitempty"`
+	Details map[string]any `json:"details,omitempty"`
 }
 
-func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
+func JSON(w http.ResponseWriter, statusCode int, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
@@ -30,7 +30,7 @@ func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func Success(w http.ResponseWriter, data interface{}, message string) {
+func Success(w http.ResponseWriter, data any, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
@@ -43,7 +43,7 @@ func Success(w http.ResponseWriter, data interface{}, message string) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func Created(w http.ResponseWriter, data interface{}, message string) {
+func Created(w http.ResponseWriter, data any, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
@@ -56,7 +56,7 @@ func Created(w http.ResponseWriter, data interface{}, message string) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func Error(w http.ResponseWriter, statusCode int, code, message string, details map[string]interface{}) {
+func Error(w http.ResponseWriter, statusCode int, code, message string, details map[string]any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
@@ -72,7 +72,7 @@ func Error(w http.ResponseWriter, statusCode int, code, message string, details 
 	json.NewEncoder(w).Encode(response)
 }
 
-func BadRequest(w http.ResponseWriter, message string, details map[string]interface{}) {
+func BadRequest(w http.ResponseWriter, message string, details map[string]any) {
 	Error(w, http.StatusBadRequest, "BAD_REQUEST", message, details)
 }
 
