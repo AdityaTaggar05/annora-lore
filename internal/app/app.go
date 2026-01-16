@@ -9,11 +9,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/AdityaTaggar05/annora-lore/internal/api/https"
+	"github.com/AdityaTaggar05/annora-lore/internal/api/https/handlers"
 	"github.com/AdityaTaggar05/annora-lore/internal/config"
-	"github.com/AdityaTaggar05/annora-lore/internal/handlers/https"
+	"github.com/AdityaTaggar05/annora-lore/internal/domain/service"
 	"github.com/AdityaTaggar05/annora-lore/internal/infrastructure/neo4j"
 	"github.com/AdityaTaggar05/annora-lore/internal/repository"
-	"github.com/AdityaTaggar05/annora-lore/internal/services"
 )
 
 type App struct {
@@ -32,8 +33,8 @@ func New(cfg *config.Config) (*App, error) {
 	log.Println("connected succesfully to Neo4j")
 
 	loreRepo := repository.NewLoreRepository(neoDB)
-	loreService := services.NewLoreService(loreRepo)
-	loreHandler := https.NewHandler(loreService)
+	loreService := service.NewLoreService(loreRepo)
+	loreHandler := handlers.NewHandler(loreService)
 
 	router := https.NewRouter(*loreHandler)
 

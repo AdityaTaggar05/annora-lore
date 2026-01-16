@@ -1,4 +1,4 @@
-package services
+package service
 
 import "github.com/AdityaTaggar05/annora-lore/internal/repository"
 

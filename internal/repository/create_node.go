@@ -6,11 +6,11 @@ import (
 	"errors"
 	"time"
 
-	"github.com/AdityaTaggar05/annora-lore/internal/models"
+	"github.com/AdityaTaggar05/annora-lore/internal/domain/model"
 	"github.com/neo4j/neo4j-go-driver/v6/neo4j"
 )
 
-func (r *LoreRepository) CreateNode(ctx context.Context, node models.LoreNode) error {
+func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) error {
 	_, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
 		query := `
 			MATCH (w:WorldNode {id: $world_id})
@@ -35,15 +35,15 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node models.LoreNode) e
 		}
 
 		params := map[string]any{
-			"id":            node.ID,
-			"type":          string(node.Type),
-			"name":          node.Name,
-			"world_id":      node.WorldID,
-			"created_by":    node.CreatedBy,
-			"canon_status":  string(node.CanonStatus),
-			"created_at":    node.CreatedAt.Format(time.RFC3339),
-			"updated_at":    node.UpdatedAt.Format(time.RFC3339),
-			"custom": string(customMap),
+			"id":           node.ID,
+			"type":         string(node.Type),
+			"name":         node.Name,
+			"world_id":     node.WorldID,
+			"created_by":   node.CreatedBy,
+			"canon_status": string(node.CanonStatus),
+			"created_at":   node.CreatedAt.Format(time.RFC3339),
+			"updated_at":   node.UpdatedAt.Format(time.RFC3339),
+			"custom":       string(customMap),
 		}
 
 		result, err := tx.Run(ctx, query, params)
