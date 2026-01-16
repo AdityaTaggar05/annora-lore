@@ -5,9 +5,15 @@ import (
 )
 
 type LoreRepository struct {
-	DB *neo4j.Neo4jDB
+	DB      *neo4j.Neo4jDB
+	Queries *QueryLoader
 }
 
-func NewLoreRepository(db *neo4j.Neo4jDB) *LoreRepository {
-	return &LoreRepository{DB: db}
+func NewLoreRepository(db *neo4j.Neo4jDB) (*LoreRepository, error) {
+	ql, err := newQueryLoader("internal/repository/queries")
+	if err != nil {
+		return nil, err
+	}
+
+	return &LoreRepository{DB: db, Queries: ql}, nil
 }

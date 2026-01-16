@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"time"
 
@@ -12,24 +11,7 @@ import (
 
 func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*model.LoreNode, error) {
 	result, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
-		query := `
-			MATCH (w:WorldNode {id: $world_id})
-			CREATE (n:LoreNode {
-				id: $id,
-				type: $type,
-				name: $name,
-				world_id: $world_id,
-				created_by: $created_by,
-				canon_status: $canon_status,
-				created_at: datetime($created_at),
-				updated_at: datetime($updated_at),
-				custom: $custom
-			})
-			CREATE (w)-[:CONTAINS]->(n)
-			RETURN n
-		`
-
-		customMap, err := json.Marshal(node.Custom)
+		query, err := r.Queries.Get("create_node.cypher")
 		if err != nil {
 			return nil, err
 		}
@@ -43,7 +25,6 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*
 			"canon_status": string(node.CanonStatus),
 			"created_at":   node.CreatedAt.Format(time.RFC3339),
 			"updated_at":   node.UpdatedAt.Format(time.RFC3339),
-			"custom":       string(customMap),
 		}
 
 		result, err := tx.Run(ctx, query, params)
@@ -57,6 +38,10 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*
 
 		return *result.Record(), nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
 
 	return MapNode(result.(neo4j.Record)), err
 }

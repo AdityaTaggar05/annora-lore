@@ -28,11 +28,15 @@ func New(cfg *config.Config) (*App, error) {
 
 	if err != nil {
 		log.Fatalf("error: couldn't connect to Neo4j")
-		os.Exit(1)
 	}
 	log.Println("connected succesfully to Neo4j")
 
-	loreRepo := repository.NewLoreRepository(neoDB)
+	loreRepo, err := repository.NewLoreRepository(neoDB)
+	if err != nil {
+		log.Fatalf("error: couldn't connect to Lore Repository")
+	}
+	log.Println("connected succesfully to Lore Repository")
+
 	loreService := service.NewLoreService(loreRepo)
 	loreHandler := handlers.NewHandler(loreService)
 
