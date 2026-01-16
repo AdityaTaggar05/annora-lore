@@ -10,8 +10,8 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v6/neo4j"
 )
 
-func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) error {
-	_, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*model.LoreNode, error) {
+	result, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
 		query := `
 			MATCH (w:WorldNode {id: $world_id})
 			CREATE (n:LoreNode {
@@ -55,8 +55,8 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) er
 			return nil, errors.New("node creation did not return result")
 		}
 
-		return nil, nil
+		return *result.Record(), nil
 	})
 
-	return err
+	return MapNode(result.(neo4j.Record)), err
 }
