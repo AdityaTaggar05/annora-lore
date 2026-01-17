@@ -14,14 +14,14 @@ func ValidateRelation(rel model.Relation) error {
 		return nil
 	}
 
-	toMap, ok := model.AllowedRelations[rel.From]
+	toMap, ok := model.AllowedRelations[rel.FromType]
 	if !ok {
-		return errors.New("no relations allowed from node type: " + string(rel.From))
+		return errors.New("no relations allowed from node type: " + string(rel.FromType))
 	}
 
-	relMap, ok := toMap[rel.To]
+	relMap, ok := toMap[rel.ToType]
 	if !ok || !relMap[rel.Rel] {
-		return errors.New("invalid relation to node type: " + string(rel.To) + " from node type: " + string(rel.From))
+		return errors.New("invalid relation to node type: " + string(rel.ToType) + " from node type: " + string(rel.FromType))
 	}
 
 	return nil
