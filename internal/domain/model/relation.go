@@ -5,13 +5,15 @@ import "time"
 type RelationType string
 
 type Relation struct {
-	From        NodeType     `json:"from" validate:"required, oneof=place species character artifact faction event"`
-	To          NodeType     `json:"to" validate:"required, oneof=place species character artifact faction event"`
-	Rel         RelationType `json:"rel" validate:"required"`
-	Description string       `json:"description,omitempty" validate:"required_if=Rel RELATED_TO"`
-	CreatedBy   string       `json:"created_by" validate:"required"`
-	CreatedAt   time.Time    `json:"created_at" validate:"required"`
-	UpdatedAt   time.Time    `json:"updated_at" validate:"required"`
+	FromID      string
+	ToID        string
+	FromType    NodeType
+	ToType      NodeType
+	Rel         RelationType
+	Description string
+	CreatedBy   string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 var AllowedRelations = map[NodeType]map[NodeType]map[RelationType]bool{
