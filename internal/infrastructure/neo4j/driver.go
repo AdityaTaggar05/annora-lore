@@ -36,7 +36,7 @@ func (db *Neo4jDB) Close(ctx context.Context) error {
 	return db.Driver.Close(ctx)
 }
 
-func (db *Neo4jDB) ExecuteWrite(ctx context.Context, work neo4j.ManagedTransactionWork) (interface{}, error) {
+func (db *Neo4jDB) ExecuteWrite(ctx context.Context, work neo4j.ManagedTransactionWork) (any, error) {
 	session := db.Driver.NewSession(ctx, neo4j.SessionConfig{
 		DatabaseName: db.Config.Database,
 	})
@@ -45,7 +45,7 @@ func (db *Neo4jDB) ExecuteWrite(ctx context.Context, work neo4j.ManagedTransacti
 	return session.ExecuteWrite(ctx, work)
 }
 
-func (db *Neo4jDB) ExecuteRead(ctx context.Context, work neo4j.ManagedTransactionWork) (interface{}, error) {
+func (db *Neo4jDB) ExecuteRead(ctx context.Context, work neo4j.ManagedTransactionWork) (any, error) {
 	session := db.Driver.NewSession(ctx, neo4j.SessionConfig{
 		DatabaseName: db.Config.Database,
 	})
