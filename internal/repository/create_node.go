@@ -32,16 +32,17 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*
 			return nil, errors.New("failed to create node: " + err.Error())
 		}
 
-		if !result.Next(ctx) {
-			return nil, errors.New("node creation did not return result")
-		}
-
-		return *result.Record(), nil
+		return result.Single(ctx)
 	})
 
 	if err != nil {
 		return nil, err
 	}
 
-	return MapNode(result.(neo4j.Record)), err
+	nodeVal, ok := result.(neo4j.Record).Get("n")
+	if !ok {
+		return nil, errors.New("missing 'n' node")
+	}
+
+	return mapNode(nodeVal.(neo4j.Node)), err
 }

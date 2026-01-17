@@ -16,6 +16,7 @@ func NewRouter(loreHandler handlers.Handler) *chi.Mux {
 	})
 
 	r.Post("/nodes/create", loreHandler.HandleCreateNode)
+	r.Post("/nodes/relate", loreHandler.HandleCreateRelation)
 
 	return r
 }

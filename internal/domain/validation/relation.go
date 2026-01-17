@@ -6,22 +6,15 @@ import (
 	"github.com/AdityaTaggar05/annora-lore/internal/domain/model"
 )
 
-func ValidateRelation(rel model.Relation) error {
-	if rel.Rel == "RELATED_TO" {
-		if len(rel.Description) < 10 {
-			return errors.New("RELATED_TO requires a meaningful description")
-		}
-		return nil
-	}
-
-	toMap, ok := model.AllowedRelations[rel.FromType]
+func ValidateRelation(fromType, toType model.NodeType, rel model.RelationType) error {
+	toMap, ok := model.AllowedRelations[fromType]
 	if !ok {
-		return errors.New("no relations allowed from node type: " + string(rel.FromType))
+		return errors.New("no relations allowed from node type: " + string(fromType))
 	}
 
-	relMap, ok := toMap[rel.ToType]
-	if !ok || !relMap[rel.Rel] {
-		return errors.New("invalid relation to node type: " + string(rel.ToType) + " from node type: " + string(rel.FromType))
+	relMap, ok := toMap[toType]
+	if !ok || !relMap[rel] {
+		return errors.New("invalid relation to node type: " + string(toType) + " from node type: " + string(fromType))
 	}
 
 	return nil
