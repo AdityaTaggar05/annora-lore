@@ -44,3 +44,42 @@ func (r *LoreRepository) FetchNodeByID(ctx context.Context, worldID string, node
 
 	return mapNode(node.(neo4j.Node)), nil
 } 
+
+func (r *LoreRepository) FetchNodesByType(ctx context.Context, worldID string, nodeType []string) ([]*model.LoreNode, error) {
+	result, err := r.DB.ExecuteRead(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+		query, err := r.Queries.Get("fetch_nodes_by_type.cypher")
+		if err != nil {
+			return nil, err
+		}
+
+		params := map[string]any{
+			"world_id": worldID,
+			"node_types": nodeType,
+		}
+
+		result, err := tx.Run(ctx, query, params)
+		if err != nil {
+			return nil, err
+		}
+
+		return result.Collect(ctx)
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	records := result.([]*neo4j.Record)
+	nodes := make([]*model.LoreNode, len(records))
+
+	for i, record := range records {
+		node, ok := record.Get("n")
+		if !ok {
+			return nil, errors.New("missing node 'n'")
+		}
+
+		nodes[i] = mapNode(node.(neo4j.Node))
+	}
+
+	return nodes, nil
+}
