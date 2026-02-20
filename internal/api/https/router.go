@@ -18,5 +18,7 @@ func NewRouter(loreHandler handlers.Handler) *chi.Mux {
 	r.Post("/nodes/create", loreHandler.HandleCreateNode)
 	r.Post("/nodes/relate", loreHandler.HandleCreateRelation)
 
+	r.Get("/world/{world_id}/nodes/{node_id}", loreHandler.FetchNodes)
+
 	return r
 }

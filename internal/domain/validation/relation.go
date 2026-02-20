@@ -4,7 +4,12 @@ import (
 	"errors"
 
 	"github.com/AdityaTaggar05/annora-lore/internal/domain/model"
+	"github.com/google/uuid"
 )
+
+func ValidateID(id string) error {
+	return uuid.Validate(id)
+}
 
 func ValidateRelation(fromType, toType model.NodeType, rel model.RelationType) error {
 	toMap, ok := model.AllowedRelations[fromType]
