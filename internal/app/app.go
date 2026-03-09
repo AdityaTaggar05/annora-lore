@@ -76,6 +76,6 @@ func (a *App) Start() error {
 		return err
 	}
 
-	log.Println("Auth service stopped gracefully")
+	log.Println("Lore service stopped gracefully")
 	return nil
 }
