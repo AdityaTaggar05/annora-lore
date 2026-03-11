@@ -37,9 +37,9 @@ func (r *LoreRepository) FetchNodeByID(ctx context.Context, worldID string, node
 
 	record := result.(*neo4j.Record)
 
-	node, ok := record.Get("node")
+	node, ok := record.Get("n")
 	if !ok {
-		return nil, errors.New("missing node 'node'")
+		return nil, errors.New("missing node 'n'")
 	}
 
 	return mapNode(node.(neo4j.Node)), nil

@@ -1,2 +1,2 @@
-MATCH (w: WorldNode{id: $world_id})-[:CONTAINS]->(node: LoreNode{id: $node_id})
-RETURN node
+MATCH (n:LoreNode {id: $world_id})
+RETURN n
