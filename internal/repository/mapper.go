@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/AdityaTaggar05/annora-lore/internal/domain/model"
@@ -10,14 +8,6 @@ import (
 )
 
 func mapNode(node neo4j.Node) *model.LoreNode {
-	var custom map[string]any
-	err := json.Unmarshal([]byte(node.Props["custom"].(string)), &custom)
-
-	if err != nil {
-		fmt.Println("err: ", err.Error())
-		return nil
-	}
-
 	return &model.LoreNode{
 		ID:          node.Props["id"].(string),
 		Type:        model.NodeType(node.Props["type"].(string)),
@@ -27,7 +17,6 @@ func mapNode(node neo4j.Node) *model.LoreNode {
 		UpdatedAt:   parseTime(node.Props["updated_at"]),
 		CanonStatus: model.CanonStatus(node.Props["canon_status"].(string)),
 		WorldID:     node.Props["world_id"].(string),
-		Custom:      custom,
 	}
 }
 

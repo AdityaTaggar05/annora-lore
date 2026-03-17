@@ -11,5 +11,4 @@ type LoreNode struct {
 	UpdatedAt   time.Time      `json:"updated_at"`
 	CanonStatus CanonStatus    `json:"canon_status"`
 	WorldID     string         `json:"world_id"`
-	Custom      map[string]any `json:"custom,omitempty"`
 }

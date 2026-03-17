@@ -8,7 +8,6 @@ CREATE (n:LoreNode {
 	canon_status: $canon_status,
 	created_at: datetime($created_at),
 	updated_at: datetime($updated_at),
-	custom: "null"
 })
 CREATE (w)-[:CONTAINS]->(n)
 RETURN n

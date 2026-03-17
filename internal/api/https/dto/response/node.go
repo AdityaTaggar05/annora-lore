@@ -15,7 +15,6 @@ type LoreNodeResponseDTO struct {
 	UpdatedAt   time.Time      `json:"updated_at"`
 	CanonStatus string         `json:"canon_status"`
 	WorldID     string         `json:"world_id"`
-	Custom      map[string]any `json:"custom,omitempty"`
 }
 
 func ToLoreNodeResponse(node model.LoreNode) LoreNodeResponseDTO {
@@ -28,6 +27,5 @@ func ToLoreNodeResponse(node model.LoreNode) LoreNodeResponseDTO {
 		UpdatedAt:   node.UpdatedAt,
 		CanonStatus: string(node.CanonStatus),
 		WorldID:     node.WorldID,
-		Custom:      node.Custom,
 	}
 }
