@@ -14,7 +14,7 @@ type CreateLoreNodeRequestDTO struct {
 	CreatedBy string         `json:"created_by" validate:"required,uuid"`
 }
 
-func (dto CreateLoreNodeRequestDTO) ToDomain() model.LoreNode {
+func (dto CreateLoreNodeRequestDTO) ToDomain(username string) model.LoreNode {
 	now := time.Now()
 
 	return model.LoreNode{
@@ -22,6 +22,7 @@ func (dto CreateLoreNodeRequestDTO) ToDomain() model.LoreNode {
 		Type:        dto.Type,
 		Name:        dto.Name,
 		CreatedBy:   dto.CreatedBy,
+		CreatorUsername: username,
 		CreatedAt:   now,
 		UpdatedAt:   now,
 		CanonStatus: model.CanonStatusPending,

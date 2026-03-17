@@ -5,6 +5,7 @@ CREATE (n:LoreNode {
 	name: $name,
 	world_id: $world_id,
 	created_by: $created_by,
+  creator_username: $creator_username,
 	canon_status: $canon_status,
 	created_at: datetime($created_at),
 	updated_at: datetime($updated_at),

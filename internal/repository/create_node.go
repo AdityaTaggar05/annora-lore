@@ -17,14 +17,15 @@ func (r *LoreRepository) CreateNode(ctx context.Context, node model.LoreNode) (*
 		}
 
 		params := map[string]any{
-			"id":           node.ID,
-			"type":         string(node.Type),
-			"name":         node.Name,
-			"world_id":     node.WorldID,
-			"created_by":   node.CreatedBy,
-			"canon_status": string(node.CanonStatus),
-			"created_at":   node.CreatedAt.Format(time.RFC3339),
-			"updated_at":   node.UpdatedAt.Format(time.RFC3339),
+			"id":               node.ID,
+			"type":             string(node.Type),
+			"name":             node.Name,
+			"world_id":         node.WorldID,
+			"created_by":       node.CreatedBy,
+			"creator_username": node.CreatorUsername,
+			"canon_status":     string(node.CanonStatus),
+			"created_at":       node.CreatedAt.Format(time.RFC3339),
+			"updated_at":       node.UpdatedAt.Format(time.RFC3339),
 		}
 
 		result, err := tx.Run(ctx, query, params)

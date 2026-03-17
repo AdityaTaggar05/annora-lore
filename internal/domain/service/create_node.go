@@ -8,5 +8,7 @@ import (
 )
 
 func (s *LoreService) CreateNode(ctx context.Context, dto request.CreateLoreNodeRequestDTO) (*model.LoreNode, error) {
-	return s.Repo.CreateNode(ctx, dto.ToDomain())
+	// TODO: Fetch Username from User Service corresponding to user_id from JWT Token
+
+	return s.Repo.CreateNode(ctx, dto.ToDomain("username"))
 }
