@@ -12,7 +12,6 @@ type LoreNodeResponseDTO struct {
 	Name        string         `json:"name"`
 	CreatedBy   string         `json:"created_by"`
 	CreatedAt   time.Time      `json:"created_at"`
-	UpdatedAt   time.Time      `json:"updated_at"`
 	CanonStatus string         `json:"canon_status"`
 	WorldID     string         `json:"world_id"`
 }
@@ -24,7 +23,6 @@ func ToLoreNodeResponse(node model.LoreNode) LoreNodeResponseDTO {
 		Name:        node.Name,
 		CreatedBy:   node.CreatedBy,
 		CreatedAt:   node.CreatedAt,
-		UpdatedAt:   node.UpdatedAt,
 		CanonStatus: string(node.CanonStatus),
 		WorldID:     node.WorldID,
 	}
