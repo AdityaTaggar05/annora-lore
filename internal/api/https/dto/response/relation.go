@@ -12,7 +12,6 @@ type LoreRelationResponseDTO struct {
 	Description     string              `json:"description"`
 	CreatorUsername string              `json:"creator_username"`
 	CreatedAt       time.Time           `json:"created_at"`
-	UpdatedAt       time.Time           `json:"updated_at"`
 }
 
 func ToLoreRelationResponse(rel model.Relation) LoreRelationResponseDTO {
@@ -22,6 +21,5 @@ func ToLoreRelationResponse(rel model.Relation) LoreRelationResponseDTO {
 		Description:     rel.Description,
 		CreatorUsername: rel.CreatorUsername,
 		CreatedAt:       rel.CreatedAt,
-		UpdatedAt:       rel.UpdatedAt,
 	}
 }
