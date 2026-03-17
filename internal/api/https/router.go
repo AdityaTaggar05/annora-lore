@@ -5,10 +5,14 @@ import (
 
 	"github.com/AdityaTaggar05/annora-lore/internal/api/https/handlers"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 )
 
 func NewRouter(loreHandler handlers.Handler) *chi.Mux {
 	r := chi.NewRouter()
+
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Service is up and running!"))
