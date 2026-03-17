@@ -18,7 +18,6 @@ func (r *LoreRepository) FetchNodeByID(ctx context.Context, worldID string, node
 		}
 
 		params := map[string]any{
-			"world_id": worldID,
 			"node_id": nodeID,
 		}
 

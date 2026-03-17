@@ -1,2 +1,2 @@
-MATCH (n:LoreNode {id: $world_id})
+MATCH (n:LoreNode {id: $node_id})
 RETURN n
