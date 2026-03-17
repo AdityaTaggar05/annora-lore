@@ -10,7 +10,7 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v6/neo4j"
 )
 
-func (r *LoreRepository) FetchNodeByID(ctx context.Context, worldID string, nodeID string) (*model.LoreNode, error) {
+func (r *LoreRepository) FetchNodeByID(ctx context.Context, nodeID string) (*model.LoreNode, error) {
 	result, err := r.DB.ExecuteRead(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
 		query, err := r.Queries.Get("fetch_node_by_id.cypher")
 		if err != nil {

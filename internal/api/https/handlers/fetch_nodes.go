@@ -27,7 +27,7 @@ func (h *Handler) FetchNodeByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	node, err := h.Service.FetchNodeByID(r.Context(), worldID, nodeID)
+	node, err := h.Service.FetchNodeByID(r.Context(), nodeID)
 
 	if err != nil {
 		fmt.Println("err:", err)
