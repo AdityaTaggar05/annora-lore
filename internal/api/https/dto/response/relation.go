@@ -7,17 +7,17 @@ import (
 )
 
 type LoreRelationResponseDTO struct {
-	ToID            string    `json:"to_id"`
-	Rel             string    `json:"rel"`
-	Description     string    `json:"description"`
-	CreatorUsername string    `json:"creator_username"`
-	CreatedAt       time.Time `json:"created_at"`
-	UpdatedAt       time.Time `json:"updated_at"`
+	To              LoreNodeResponseDTO `json:"to"`
+	Rel             string              `json:"rel"`
+	Description     string              `json:"description"`
+	CreatorUsername string              `json:"creator_username"`
+	CreatedAt       time.Time           `json:"created_at"`
+	UpdatedAt       time.Time           `json:"updated_at"`
 }
 
 func ToLoreRelationResponse(rel model.Relation) LoreRelationResponseDTO {
 	return LoreRelationResponseDTO{
-		ToID:            rel.ToID,
+		To:              ToLoreNodeResponse(*rel.To),
 		Rel:             string(rel.Rel),
 		Description:     rel.Description,
 		CreatorUsername: rel.CreatorUsername,

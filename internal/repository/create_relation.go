@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -11,8 +10,8 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v6/neo4j"
 )
 
-func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, relation model.Relation) (*model.Relation, error) {
-	result, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, relation *model.Relation) (*model.Relation, error) {
+	_, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
 		query, err := r.Queries.Get("create_relation.cypher")
 		if err != nil {
 			return nil, err
@@ -23,7 +22,7 @@ func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, rel
 		params := map[string]any{
 			"world_id":    worldID,
 			"from_id":     relation.FromID,
-			"to_id":       relation.ToID,
+			"to_id":       relation.To.ID,
 			"description": relation.Description,
 			"created_by":  relation.CreatedBy,
 			"created_at":  relation.CreatedAt.Format(time.RFC3339),
@@ -34,7 +33,7 @@ func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, rel
 
 		if err != nil {
 			log.Println("err: ", err)
-			return nil, fmt.Errorf("failed to create relation (%s) b/w nodes %s & %s\n", relation.Rel, relation.FromID, relation.ToID)
+			return nil, fmt.Errorf("failed to create relation (%s) b/w nodes %s & %s\n", relation.Rel, relation.FromID, relation.To.ID)
 		}
 
 		return result.Single(ctx)
@@ -44,14 +43,5 @@ func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, rel
 		return nil, err
 	}
 
-	record := result.(*neo4j.Record)
-
-	relValue, ok := record.Get("rel")
-	if !ok {
-		return nil, errors.New("missing 'rel' relationship")
-	}
-	
-	rel := mapRelation(relation.FromID, relation.ToID, relValue.(neo4j.Relationship))
-
-	return rel, nil
+	return relation, nil
 }

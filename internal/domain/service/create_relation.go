@@ -24,5 +24,5 @@ func (s *LoreService) CreateRelation(ctx context.Context, dto request.CreateRela
 		return nil, err
 	}
 
-	return s.Repo.CreateRelation(ctx, worldID, relation)
+	return s.Repo.CreateRelation(ctx, worldID, &relation)
 }

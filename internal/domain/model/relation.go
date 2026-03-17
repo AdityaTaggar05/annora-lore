@@ -6,7 +6,7 @@ type RelationType string
 
 type Relation struct {
 	FromID          string       `json:"from_id"`
-	ToID            string       `json:"to_id"`
+	To              *LoreNode    `json:"to"`
 	Rel             RelationType `json:"rel"`
 	Description     string       `json:"description"`
 	CreatedBy       string       `json:"created_by"`

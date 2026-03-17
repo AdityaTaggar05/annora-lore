@@ -38,7 +38,7 @@ func (r *LoreRepository) FetchAllRelationsOfNode(ctx context.Context, nodeID str
 	for i, record := range records {
 		to, ok := record.Get("to")
 		if !ok {
-			return nil, errors.New("missing node 'n'")
+			return nil, errors.New("missing node 'to'")
 		}
 
 		rel, ok := record.Get("r")
@@ -46,7 +46,9 @@ func (r *LoreRepository) FetchAllRelationsOfNode(ctx context.Context, nodeID str
 			return nil, errors.New("missing relationship 'r'")
 		}
 
-		relations[i] = mapRelation(nodeID, to.(neo4j.Node).Props["id"].(string), rel.(neo4j.Relationship))
+		relations[i] = mapRelation(rel.(neo4j.Relationship))
+		relations[i].FromID = nodeID
+		relations[i].To = mapNode(to.(neo4j.Node))
 	}
 
 	return relations, nil

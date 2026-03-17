@@ -21,13 +21,13 @@ func (dto *CreateRelationRequestDTO) ToDomain(username string) (string, model.Re
 	now := time.Now()
 
 	return dto.WorldID, model.Relation{
-		FromID:      dto.FromID,
-		ToID:        dto.ToID,
-		Rel:         model.RelationType(dto.Relation),
-		Description: dto.Description,
-		CreatedBy:   dto.CreatedBy,
+		FromID:          dto.FromID,
+		To:              &model.LoreNode{ID: dto.ToID},
+		Rel:             model.RelationType(dto.Relation),
+		Description:     dto.Description,
+		CreatedBy:       dto.CreatedBy,
 		CreatorUsername: username,
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		CreatedAt:       now,
+		UpdatedAt:       now,
 	}
 }
