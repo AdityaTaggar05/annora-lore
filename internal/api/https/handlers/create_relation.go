@@ -25,12 +25,12 @@ func (h *Handler) HandleCreateRelation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	from, rel, to, err := h.Service.CreateRelation(r.Context(), dto)
+	rel, err := h.Service.CreateRelation(r.Context(), dto)
 	if err != nil {
 		log.Println("err: ", err)
 		response.InternalServerError(w, err.Error())
 		return
 	}
 
-	response.Created(w, dtoresponse.ToLoreRelationResponse(*from, *rel, *to), "Relation created successfully")
+	response.Created(w, dtoresponse.ToLoreRelationResponse(*rel), "Relation created successfully")
 }

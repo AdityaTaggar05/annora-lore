@@ -11,7 +11,7 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v6/neo4j"
 )
 
-func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, relation model.Relation) (*model.LoreNode, *model.Relation, *model.LoreNode, error) {
+func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, relation model.Relation) (*model.Relation, error) {
 	result, err := r.DB.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
 		query, err := r.Queries.Get("create_relation.cypher")
 		if err != nil {
@@ -41,28 +41,17 @@ func (r *LoreRepository) CreateRelation(ctx context.Context, worldID string, rel
 	})
 
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, err
 	}
 
 	record := result.(*neo4j.Record)
-	fromNode, ok := record.Get("from")
-	if !ok {
-		return nil, nil, nil, errors.New("missing 'from' node")
-	}
 
 	relValue, ok := record.Get("rel")
 	if !ok {
-		return nil, nil, nil, errors.New("missing 'rel' relationship")
+		return nil, errors.New("missing 'rel' relationship")
 	}
+	
+	rel := mapRelation(relation.FromID, relation.ToID, relValue.(neo4j.Relationship))
 
-	toNode, ok := record.Get("to")
-	if !ok {
-		return nil, nil, nil, errors.New("missing 'to' node")
-	}
-
-	from := mapNode(fromNode.(neo4j.Node))
-	to := mapNode(toNode.(neo4j.Node))
-	rel := mapRelation(from, to, relValue.(neo4j.Relationship))
-
-	return from, rel, to, nil
+	return rel, nil
 }

@@ -1,17 +1,29 @@
 package response
 
-import "github.com/AdityaTaggar05/annora-lore/internal/domain/model"
+import (
+	"time"
+
+	"github.com/AdityaTaggar05/annora-lore/internal/domain/model"
+)
 
 type LoreRelationResponseDTO struct {
-	From     model.LoreNode `json:"from"`
-	Relation model.Relation `json:"relation"`
-	To       model.LoreNode `json:"to"`
+	FromID      string    `json:"from_id"`
+	ToID        string    `json:"to_id"`
+	Rel         string    `json:"rel"`
+	Description string    `json:"description"`
+	CreatedBy   string    `json:"created_by"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func ToLoreRelationResponse(from model.LoreNode, rel model.Relation, to model.LoreNode) LoreRelationResponseDTO {
+func ToLoreRelationResponse(rel model.Relation) LoreRelationResponseDTO {
 	return LoreRelationResponseDTO{
-		From:     from,
-		Relation: rel,
-		To:       to,
+		FromID:      rel.FromID,
+		ToID:        rel.ToID,
+		Rel:         string(rel.Rel),
+		Description: rel.Description,
+		CreatedBy:   rel.CreatedBy,
+		CreatedAt:   rel.CreatedAt,
+		UpdatedAt:   rel.UpdatedAt,
 	}
 }

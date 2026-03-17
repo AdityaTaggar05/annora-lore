@@ -20,10 +20,10 @@ func mapNode(node neo4j.Node) *model.LoreNode {
 	}
 }
 
-func mapRelation(from, to *model.LoreNode, rel neo4j.Relationship) *model.Relation {
+func mapRelation(from, to string, rel neo4j.Relationship) *model.Relation {
 	return &model.Relation{
-		FromID:      from.ID,
-		ToID:        to.ID,
+		FromID:      from,
+		ToID:        to,
 		Rel:         model.RelationType(rel.Type),
 		Description: rel.Props["description"].(string),
 		CreatedBy:   rel.Props["created_by"].(string),

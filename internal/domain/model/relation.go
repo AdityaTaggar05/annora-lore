@@ -5,13 +5,14 @@ import "time"
 type RelationType string
 
 type Relation struct {
-	FromID      string       `json:"from_id"`
-	ToID        string       `json:"to_id"`
-	Rel         RelationType `json:"rel"`
-	Description string       `json:"description"`
-	CreatedBy   string       `json:"created_by"`
-	CreatedAt   time.Time    `json:"created_at"`
-	UpdatedAt   time.Time    `json:"updated_at"`
+	FromID          string       `json:"from_id"`
+	ToID            string       `json:"to_id"`
+	Rel             RelationType `json:"rel"`
+	Description     string       `json:"description"`
+	CreatedBy       string       `json:"created_by"`
+	CreatorUsername string       `json:"creator_username"`
+	CreatedAt       time.Time    `json:"created_at"`
+	UpdatedAt       time.Time    `json:"updated_at"`
 }
 
 var AllowedRelations = map[NodeType]map[NodeType]map[RelationType]bool{
