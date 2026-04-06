@@ -35,12 +35,13 @@ LABEL org.opencontainers.image.description="Lore Service: Graph-based lore manag
 
 # Copy binary from builder
 COPY --from=builder /app/annora-lore /
+COPY ./internal/repository/queries ./internal/repository/queries
 
 # Non-root user (distroless default: 65532)
 USER 65532:65532
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8000
 
 # Health check (assumes /health endpoint from your main.go)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
