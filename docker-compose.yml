@@ -1,7 +1,8 @@
+name: annora-lore
 services:
   neo4j:
     container_name: lore-neo4j
-    image: neo4j:latest
+    image: neo4j:5.18-community
     environment:
       NEO4J_AUTH: neo4j/password
     ports:
@@ -16,6 +17,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - lore_neo4j_data:/data
+      - lore_neo4j_logs:/logs
     restart: unless-stopped
 
   annora-lore:
@@ -27,7 +31,10 @@ services:
       neo4j:
         condition: service_healthy
     environment:
-      PORT: 8000
       NEO4J_URI: bolt://lore-neo4j:7687
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: password
+
+  volumes:
+    lore_neo4j_data:
+    lore_neo4j_logs:
