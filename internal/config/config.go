@@ -10,7 +10,7 @@ type Config struct {
 func Load() *Config {
 	return &Config{
 		Server: ServerConfig{
-			Port:         getEnv("PORT", "8080"),
+			Port:         getEnv("PORT", "8000"),
 			ReadTimeout:  getDuration("SERVER_READ_TIMEOUT", 5*time.Second),
 			WriteTimeout: getDuration("SERVER_WRITE_TIMEOUT", 10*time.Second),
 		},
